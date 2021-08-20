@@ -17,6 +17,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         //DatabaseHelper databaseHelper = new DatabaseHelper();
 
+        int test;
+
         ListView listView = (ListView)findViewById(R.id.listview1);
 
         Database test = new Database("20", "01/01/21", "12.21.21");

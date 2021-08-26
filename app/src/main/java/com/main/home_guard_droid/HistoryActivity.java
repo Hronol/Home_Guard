@@ -15,9 +15,8 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        //DatabaseHelper databaseHelper = new DatabaseHelper();
-
-        int test;
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.execute("http://192.168.1.71");
 
         ListView listView = (ListView)findViewById(R.id.listview1);
 

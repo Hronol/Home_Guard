@@ -19,7 +19,6 @@ public class HistoryActivity extends AppCompatActivity {
         //databaseHelper.execute("http://192.168.1.71");
 
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.makecon();
 
         ListView listView = (ListView)findViewById(R.id.listview1);
 

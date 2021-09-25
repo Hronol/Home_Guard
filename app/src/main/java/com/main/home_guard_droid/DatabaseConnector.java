@@ -7,8 +7,12 @@ import com.google.firebase.database.*;
 
 public class DatabaseConnector {
 
-    public DatabaseReference mDatabase;
-    mDatabase = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference mDatabase; // should be final, probably
+
+    public DatabaseConnector()
+    {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
 
     ValueEventListener postListener = new ValueEventListener() {
         @Override

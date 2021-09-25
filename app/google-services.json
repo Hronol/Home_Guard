@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "898776495209",
+    "firebase_url": "https://wsti-e154e-default-rtdb.firebaseio.com",
+    "project_id": "wsti-e154e",
+    "storage_bucket": "wsti-e154e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898776495209:android:78080ba29a62363ca99ef8",
+        "android_client_info": {
+          "package_name": "com.main.home_guard_droid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898776495209-bs0fsguqffabo173afj6pam4se504n8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk46IhZslToxxFI_2khHeT1bUHKfz0Ibo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898776495209-bs0fsguqffabo173afj6pam4se504n8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

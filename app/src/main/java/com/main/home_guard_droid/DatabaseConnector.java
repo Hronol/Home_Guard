@@ -1,40 +1,117 @@
 package com.main.home_guard_droid;
 
-import static android.content.ContentValues.TAG;
-
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.firebase.database.*;
-import com.google.firebase.firestore.auth.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DatabaseConnector {
+public class DatabaseConnector{
 
-    private static final String TAG = "ReadAndWriteSnippets";
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReferenceDB;
+    private ArrayList<Database> sensorsValue = new ArrayList<>();
+    public Database database = new Database();
+    String temp;
+    String day;
+    String time;
+    String flame;
+    String gas;
 
-    private DatabaseReference mDatabase;
-
-    public ReadAndWriteSnippets(DatabaseReference database) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+    public DatabaseConnector(){
+        mDatabase = FirebaseDatabase.getInstance();
+        mReferenceDB = mDatabase.getReference("test1");
     }
 
-    private void addPostEventListener(DatabaseReference mPostReference) {
-        ValueEventListener postListener = new ValueEventListener() {
+    public DatabaseConnector(DatabaseReference mReferenceDB){
+        this.mReferenceDB = mReferenceDB;
+    }
+
+    public interface DataStatus{
+        void LoadedData(List<Database> sensorsValue, List<String> keys);
+        void InsertedData();
+        void UpdatedData();
+        void DeletedData();
+    }
+
+/*    public void getData(final DataStatus dataStatus){
+        mReferenceDB.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                Post post = dataSnapshot.getValue(Post.class);
-                // ..
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                sensorsValue.clear();
+                List<String> keys = new ArrayList<>();
+                for(DataSnapshot keyNode : snapshot.getChildren()){
+                    keys.add(keyNode.getKey());
+                    Database database = keyNode.getValue(Database.class);
+                    sensorsValue.add(database);
+                }
+                dataStatus.LoadedData(sensorsValue, keys);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            public void onCancelled(@NonNull DatabaseError error) {
+                String errors = error.toString();
             }
-        };
-        mPostReference.addValueEventListener(postListener);
-        // [END post_value_event_listener]
+        });
+    }*/
+
+    public ArrayList<Database> getList(){
+        mReferenceDB.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //fetchData(snapshot);
+                //sensorsValue.clear();
+                //Database database = new Database();
+                //database = snapshot.getValue(Database.class);
+                //sensorsValue.add(snapshot.getValue(Database.class));
+
+                String temp = snapshot.child("Temp").getValue().toString();
+                String day = snapshot.child("day").getValue().toString();
+                String time = snapshot.child("time").getValue().toString();
+                String flame = snapshot.child("flame").getValue().toString();
+                String gas = snapshot.child("gas").getValue().toString();
+
+                Database database = new Database(temp, day, time, flame, gas);
+
+                sensorsValue.add(database);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //fetchData(snapshot);
+                Database database = new Database();
+                database = snapshot.getValue(Database.class);
+                sensorsValue.add(database);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
+        return sensorsValue;
     }
+
+/*    public void fetchData(DataSnapshot snapshot){
+        sensorsValue.clear();
+        for (DataSnapshot keyNode : snapshot.getChildren()){
+            Database database = keyNode.getValue(Database.class);
+            sensorsValue.add(database);
+        }
+    }*/
 }

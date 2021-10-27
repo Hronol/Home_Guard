@@ -1,92 +1,72 @@
 package com.main.home_guard_droid;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
+import com.google.firebase.database.Exclude;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+public class DatabaseHelper {
 
-public class DatabaseHelper extends AsyncTask<String, Void, String> {
+    public String tempValue;
+    public String dayValue;
+    public String timeValue;
+    public String warningValue;
+    public int starCount = 0;
+    public Map<String, Boolean> stars = new HashMap<>();
 
-    String result = "";
-    Context context;
-    AlertDialog alertDialog;
-    DatabaseHelper (Context ctx) {
-        context = ctx;
-    }
-    @Override
-    protected String doInBackground(String... params) {
-        String url = params[0];
-        HttpURLConnection c = null;
-        try {
-            URL u = new URL(url);
-            c = (HttpURLConnection) u.openConnection();
-            c.setRequestMethod("GET");
-            c.setRequestProperty("Content-length", "0");
-            c.setUseCaches(false);
-            c.setAllowUserInteraction(false);
-            //c.setConnectTimeout(timeout);
-            //c.setReadTimeout(timeout);
-            c.connect();
-            int status = c.getResponseCode();
-
-            switch (status) {
-                case 200:
-                case 201:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                    br.close();
-                    result = sb.toString();
-                    return sb.toString();
-            }
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (c != null) {
-                try {
-                    c.disconnect();
-                } catch (Exception ex) {
-                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        return null;
+    public DatabaseHelper() {
+        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    @Override
-    protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Login Status");
+    public String getTempValue() {
+        return tempValue;
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-        alertDialog.setMessage(result);
-        alertDialog.show();
+    public void setTempValue(String tempValue) {
+        this.tempValue = tempValue;
     }
 
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
+    public String getDayValue() {
+        return dayValue;
+    }
+
+    public void setDayValue(String dayValue) {
+        this.dayValue = dayValue;
+    }
+
+    public String getTimeValue() {
+        return timeValue;
+    }
+
+    public void setTimeValue(String timeValue) {
+        this.timeValue = timeValue;
+    }
+
+    public String getWarningValue() {
+        return warningValue;
+    }
+
+    public void setWarningValue(String warningValue) {
+        this.warningValue = warningValue;
+    }
+
+    public DatabaseHelper(String tempValue, String dayValue, String timeValue, String warningValue) {
+        this.tempValue = tempValue;
+        this.dayValue = dayValue;
+        this.timeValue = timeValue;
+        this.warningValue = warningValue;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("temp", tempValue);
+        result.put("day", dayValue);
+        result.put("time", timeValue);
+        result.put("warning", warningValue);
+        result.put("starCount", starCount);
+        result.put("stars", stars);
+
+        return result;
     }
 }

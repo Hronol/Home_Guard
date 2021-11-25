@@ -1,17 +1,13 @@
 package com.main.home_guard_droid;
 
-import android.content.Intent;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseConnector{
 
@@ -27,19 +23,43 @@ public class DatabaseConnector{
 
     public DatabaseConnector(){
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceDB = mDatabase.getReference("test1");
+        mReferenceDB = mDatabase.getReference();
     }
 
     public DatabaseConnector(DatabaseReference mReferenceDB){
         this.mReferenceDB = mReferenceDB;
     }
 
-    public interface DataStatus{
+    public ArrayList<Database> readData(){
+        mReferenceDB.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().exists()){
+                        DataSnapshot snapshot = task.getResult();
+
+                        /*String temp = snapshot.child("Temp").getValue().toString();
+                        String day = snapshot.child("day").getValue().toString();
+                        String time = snapshot.child("time").getValue().toString();
+                        String flame = snapshot.child("flame").getValue().toString();
+                        String gas = snapshot.child("gas").getValue().toString();*/
+                        Database database = new Database();
+                        database = snapshot.getValue(Database.class);
+                        sensorsValue.add(snapshot.getValue(Database.class));
+                        //sensorsValue.add(new Database(temp,day,time,flame,gas));
+                    }
+                }
+            }
+        });
+        return sensorsValue;
+    }
+
+/*    public interface DataStatus{
         void LoadedData(List<Database> sensorsValue, List<String> keys);
         void InsertedData();
         void UpdatedData();
         void DeletedData();
-    }
+    }*/
 
 /*    public void getData(final DataStatus dataStatus){
         mReferenceDB.addValueEventListener(new ValueEventListener() {
@@ -68,17 +88,16 @@ public class DatabaseConnector{
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //fetchData(snapshot);
                 //sensorsValue.clear();
-                //Database database = new Database();
-                //database = snapshot.getValue(Database.class);
+                database = snapshot.getValue(Database.class);
                 //sensorsValue.add(snapshot.getValue(Database.class));
 
-                String temp = snapshot.child("Temp").getValue().toString();
+/*                String temp = snapshot.child("Temp").getValue().toString();
                 String day = snapshot.child("day").getValue().toString();
                 String time = snapshot.child("time").getValue().toString();
                 String flame = snapshot.child("flame").getValue().toString();
                 String gas = snapshot.child("gas").getValue().toString();
 
-                Database database = new Database(temp, day, time, flame, gas);
+                Database database = new Database(temp, day, time, flame, gas);*/
 
                 sensorsValue.add(database);
             }

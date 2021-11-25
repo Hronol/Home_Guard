@@ -28,8 +28,9 @@
 
         <Switch
             android:id="@+id/switch_temp"
-            android:layout_width="106dp"
+            android:layout_width="104dp"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:ellipsize="start"
             android:scaleX="2"
             android:scaleY="2"
@@ -52,6 +53,7 @@
             android:id="@+id/switch_smoke"
             android:layout_width="105dp"
             android:layout_height="45dp"
+            android:checked="false"
             android:scaleX="2"
             android:scaleY="2" />
 
@@ -67,6 +69,7 @@
             android:id="@+id/switch_flame"
             android:layout_width="105dp"
             android:layout_height="50dp"
+            android:checked="false"
             android:scaleX="2"
             android:scaleY="2" />
 
@@ -82,6 +85,7 @@
             android:id="@+id/switch_buzz"
             android:layout_width="104dp"
             android:layout_height="48dp"
+            android:checked="false"
             android:scaleX="2"
             android:scaleY="2" />
     </androidx.gridlayout.widget.GridLayout>

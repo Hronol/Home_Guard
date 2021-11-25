@@ -3,25 +3,30 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="100">
+    android:weightSum="4">
 
     <TextView
-        android:textSize="20sp"
-        android:layout_weight="33"
-        android:layout_width="match_parent"
+        android:id="@+id/textTemp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:id="@+id/textTemp"/>
+        android:layout_weight="1" />
+
     <TextView
-        android:textSize="20sp"
-        android:layout_weight="33"
-        android:layout_width="match_parent"
+        android:id="@+id/textDate"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:id="@+id/textDate"/>
+        android:layout_weight="1" />
+
     <TextView
-        android:textSize="20sp"
-        android:layout_weight="33"
-        android:layout_width="match_parent"
+        android:id="@+id/textTime"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:id="@+id/textTime"/>
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textViewWarning"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
 </LinearLayout>

@@ -1,15 +1,18 @@
 package com.main.home_guard_droid;
 
+import android.content.Intent;
+
 public class Database {
 
-    private String temp;
-    private String day;
-    private String time;
-    private String gas;
-    private String flame;
+    public String temp;
+    public String day;
+    public String time;
+    public Integer gas;
+    public Integer flame;
+    public String warning;
 
 
-    public Database(String temp, String day, String time, String gas, String flame) {
+    public Database(String temp, String day, String time, Integer gas, Integer flame) {
         this.temp = temp;
         this.day = day;
         this.time = time;
@@ -17,10 +20,11 @@ public class Database {
         this.flame = flame;
     }
 
-    public Database(String temp, String day, String time) {
+    public Database(String temp, String day, String time, String warning) {
         this.temp = temp;
         this.day = day;
         this.time = time;
+        this.warning = warning;
     }
 
     public Database() {
@@ -50,19 +54,27 @@ public class Database {
         this.time = time;
     }
 
-    public String getGas() {
+    public Integer getGas() {
         return gas;
     }
 
-    public void setGas(String gas) {
+    public void setGas(Integer gas) {
         this.gas = gas;
     }
 
-    public String getFlame() {
+    public Integer getFlame() {
         return flame;
     }
 
-    public void setFlame(String flame) {
+    public void setFlame(Integer flame) {
         this.flame = flame;
+    }
+
+    public String getWarning() {
+        return "Warning";
+    }
+
+    public void setWarning(String warning) {
+        this.warning = warning;
     }
 }

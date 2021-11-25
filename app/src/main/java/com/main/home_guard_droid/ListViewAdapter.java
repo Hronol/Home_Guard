@@ -4,72 +4,107 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends BaseAdapter{
+public class ListViewAdapter extends ArrayAdapter<Database> {
 
+    private static final String TAG = "ListViewAdapter";
     private LayoutInflater inflater;
-    private ArrayList<Database> dbList;
+    //private static ArrayList<Database> dblist;
     private int viewResourceId;
     private Context mContext;
     int mResource;
-    private TextView tvTemp;
-    private TextView tvDate;
-    private TextView tvTime;
 
-
-/*    public ListViewAdapter (Context context, int textViewResourceID, ArrayList<Database>dbList) {
-        super(context, textViewResourceID, dbList);
-        this.dbList = dbList;
-        mContext = context;
-        mResource = textViewResourceID;
-    }*/
-
-    public ListViewAdapter(Context mContext, ArrayList<Database> dbList){
-        this.mContext = mContext;
-        this.dbList = dbList;
+    public ListViewAdapter(Context mContext, int viewResourceId, ArrayList<Database> dbList){
+        super(mContext, viewResourceId, dbList);
+        this.viewResourceId = viewResourceId;
+        //this.mContext = context;
     }
 
-    @Override
+    public ListViewAdapter(Context mContext, ArrayList<Database> dbList){
+        super(mContext,0, dbList);
+    }
+
+    private static class ViewHolder{
+        TextView tvTemp;
+        TextView tvDate;
+        TextView tvTime;
+        TextView tvWarning;
+    }
+
+
+/*    @Override
     public int getCount(){
         return dbList.size();
     }
 
     @Override
-    public Object getItem(int position){
+    public Database getItem(int position){
         return dbList.get(position);
-    }
+    }*/
 
     @Override
     public long getItemId(int position){
         return position;
     }
 
+
     public View getView(int position, View convertView, ViewGroup parents){
-        if(convertView==null){
-            convertView=LayoutInflater.from(mContext).inflate(mResource,parents,false);
+        String temp = getItem(position).getTemp();
+        String date = getItem(position).getDay();
+        String time = getItem(position).getTime();
+        String warning = getItem(position).getWarning();
+        Integer flame = getItem(position).getFlame();
+        Integer gas = getItem(position).getGas();
+
+        if(flame == 0 && gas == 0){
+            warning = "OK";
         }
 
-        tvTemp = (TextView)convertView.findViewById(R.id.textTemp);
-        tvDate = (TextView)convertView.findViewById(R.id.textDate);
-        tvTime = (TextView)convertView.findViewById(R.id.textTime);
+        Database db = new Database(temp, date, time, warning);
 
-        Database db = (Database) this.getItem(position);
+        final View result;
 
-        tvTemp.setText(db.getTemp());
-        tvDate.setText(db.getDay());
-        tvTime.setText(db.getTime());
+        ViewHolder holder;
 
+        if (convertView == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+            convertView = layoutInflater.inflate(viewResourceId, null);
+            holder = new ViewHolder();
+            holder.tvTemp = (TextView) convertView.findViewById(R.id.textTemp);
+            holder.tvDate = (TextView) convertView.findViewById(R.id.textDate);
+            holder.tvTime = (TextView) convertView.findViewById(R.id.textTime);
+            holder.tvWarning = (TextView) convertView.findViewById(R.id.textViewWarning);
+
+            result = convertView;
+            convertView.setTag(holder);
+        } else{
+            holder = (ViewHolder) convertView.getTag();
+            result = convertView;
+        }
+
+        if (db != null) {
+/*
+            tvTemp = (TextView) convertView.findViewById(R.id.textTemp);
+            tvDate = (TextView) convertView.findViewById(R.id.textDate);
+            tvTime = (TextView) convertView.findViewById(R.id.textTime);
+            tvWarning = (TextView) convertView.findViewById(R.id.textViewWarning);
+*/
+            holder.tvTemp.setText(db.getTemp());
+            holder.tvDate.setText(db.getDay());
+            holder.tvTime.setText(db.getTime());
+            holder.tvWarning.setText(db.getWarning());    //ogarnac warning w tym miejscu!!!
+        }
         return convertView;
     }
 
-    public void bindData(Database database, String key){
+/*    public void bindData(Database database, String key){
         tvTemp.setText(database.getTemp());
         tvDate.setText(database.getDay());
         tvTime.setText(database.getTime());
-    }
+    }*/
 }
 

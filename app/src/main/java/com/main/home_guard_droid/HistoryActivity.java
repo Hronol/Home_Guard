@@ -49,7 +49,7 @@ public class HistoryActivity extends AppCompatActivity {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     Database value = snapshot.getValue(Database.class);
-
+//test
                     extras = getIntent().getExtras();
                     if (extras != null){
                     if(extras.get("flame").equals(false)){

@@ -50,14 +50,14 @@ public class HistoryActivity extends AppCompatActivity {
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     Database value = snapshot.getValue(Database.class);
 //test
-                    extras = getIntent().getExtras();
-                    if (extras != null){
-                    if(extras.get("flame").equals(false)){
+                   // extras = getIntent().getExtras();
+                   // if (extras != null){
+                   // if(extras.get("flame").equals(false)){
                         arrayList.add(value);
                         adapter.notifyDataSetChanged();
-                    }
+                    //}
                     //notifications.createNotification();
-                    }
+                    //}
                 }
 
                 @Override

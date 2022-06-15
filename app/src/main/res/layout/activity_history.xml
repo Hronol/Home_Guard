@@ -6,11 +6,12 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="413dp"
-        android:layout_height="464dp"
+        android:layout_width="404dp"
+        android:layout_height="622dp"
+        android:layout_marginTop="67dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ListView
             android:id="@+id/listview1"

@@ -12,11 +12,10 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String channel_id = "channelID";
-    public String channel_name = "channelName";
     Sensors sensors = new Sensors();
     Intent i;
     private Boolean flameStatus = true;
+    private Boolean gasStatus = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         i = new Intent(MainActivity.this, HistoryActivity.class);
-        createNotificationChannel();
         goToHistory();
         turnOnFlame();
         //turnOnBuzz();
-       // turnOnGas();
+        turnOnGas();
 
     }
 
@@ -44,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void turnOnFlame() {
-       // Sensors sensors = (Sensors) getApplicationContext();
-        //Switch flameSwitch = (Switch) findViewById(R.id.switch_flame);
         Button flameButton = (Button)findViewById(R.id.buttonFlame);
         flameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,23 +74,28 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
-   /* public void turnOnGas() {
+   public void turnOnGas() {
        // Sensors sensors = (Sensors) getApplicationContext();
-        Switch gasSwitch = (Switch) findViewById(R.id.switch_smoke);
-        gasSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Button gasButton = (Button) findViewById(R.id.buttonSmoke);
+        gasButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    sensors.setGasDetection(true);
+            public void onClick(View view) {
+                if (!gasStatus) {
+                    gasStatus = true;
+                    gasButton.setText("SMOKE/GAS - ONLINE");
+                    i.putExtra("gas", true);
                 } else {
-                    sensors.setGasDetection(false);
+                    flameStatus = false;
+                    gasButton.setText("SMOKE/GAS - OFFLINE");
+                    i.putExtra("gas", false);
+                    //startActivity(i);
                 }
             }
         });
 
     }
 
-    public void turnOnBuzz() {
+   /* public void turnOnBuzz() {
      //   Sensors sensors = (Sensors) getApplicationContext();
         Switch buzzSwitch = (Switch) findViewById(R.id.switch_buzz);
         buzzSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -109,14 +110,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }*/
 
-    public void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channel_id, channel_name, NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("channelDescription");
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-    }
 }

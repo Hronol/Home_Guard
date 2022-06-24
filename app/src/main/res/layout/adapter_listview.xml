@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/textTemp"
-        android:layout_width="0dp"
+        android:layout_width="19dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
 

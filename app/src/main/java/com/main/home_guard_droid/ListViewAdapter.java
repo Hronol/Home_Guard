@@ -62,6 +62,7 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
 
         if(flame == 0 && gas == 0){
             warning = "OK";
+            //db.setWarning(warning);
         }
 
         Database db = new Database(temp, date, time, warning);
@@ -96,7 +97,11 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
             holder.tvTemp.setText(db.getTemp());
             holder.tvDate.setText(db.getDay());
             holder.tvTime.setText(db.getTime());
-            holder.tvWarning.setText(db.getWarning());    //ogarnac warning w tym miejscu!!!
+           // if(flame == 0 && gas == 0){
+           //     holder.tvWarning.setText("OK");
+           // } else {
+            holder.tvWarning.setText(db.getWarning());
+            //}
         }
         return convertView;
     }

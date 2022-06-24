@@ -71,7 +71,7 @@ public class Database {
     }
 
     public String getWarning() {
-        return "Warning";
+        return warning;
     }
 
     public void setWarning(String warning) {

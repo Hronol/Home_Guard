@@ -9,36 +9,41 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-public class Notifications {
+public class Notifications extends FirebaseMessagingService {
 
-    public String channel_id = "channelID";
-    public String channel_name = "channelName";
-    public Context mcontext;
-
-    public void createNotification(Context context){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel_id)
-                .setContentTitle("Home Guard")
-                .setContentText("UWAGA! Wykryto zagrożenie!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(mcontext);
-        managerCompat.notify(1, builder.build());
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage){
+        String title = remoteMessage.getNotification().getTitle();
+        String text = remoteMessage.getNotification().getBody();
+        final String CHANNEL_ID = "channel";
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "push",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        getSystemService(NotificationManager.class).createNotificationChannel(channel);
+        Notification.Builder notification = new Notification.Builder(this, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setSmallIcon(R.drawable.ic_danger_notification)
+                .setAutoCancel(false);
+        NotificationManagerCompat.from(this).notify(1, notification.build());
+        super.onMessageReceived(remoteMessage);
     }
 
-    public void createNotificationChannel(Context context){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(channel_id, channel_name, NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("channelDescription");
 
-            NotificationManager notificationManager = (NotificationManager) mcontext.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
 
 }
+
 
 

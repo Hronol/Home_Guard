@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checkable="true"
-            android:text="Smoke"
+            android:text="SMOKE/GAS - ONLINE"
             app:layout_column="0"
             app:layout_row="1" />
 

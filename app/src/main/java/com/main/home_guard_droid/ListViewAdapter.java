@@ -1,14 +1,22 @@
 package com.main.home_guard_droid;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.annotation.RequiresApi;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class ListViewAdapter extends ArrayAdapter<Database> {
 
     private static final String TAG = "ListViewAdapter";
@@ -17,6 +25,12 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
     private int viewResourceId;
     private Context mContext;
     int mResource;
+    Notifications notifications = new Notifications();
+    Date currentTime = Calendar.getInstance().getTime();
+    //SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yy");
+    //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+    StringBuilder stringBuilder = new StringBuilder();
 
     public ListViewAdapter(Context mContext, int viewResourceId, ArrayList<Database> dbList){
         super(mContext, viewResourceId, dbList);
@@ -36,6 +50,7 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
     }
 
 
+
 /*    @Override
     public int getCount(){
         return dbList.size();
@@ -52,6 +67,7 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View getView(int position, View convertView, ViewGroup parents){
         String temp = getItem(position).getTemp();
         String date = getItem(position).getDay();
@@ -60,13 +76,29 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
         Integer flame = getItem(position).getFlame();
         Integer gas = getItem(position).getGas();
 
+        //Dates comparision
+       // String dayToday = dayFormat.format(currentTime);
+        //String timeToday = timeFormat.format(currentTime);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("CET"));
+        String dateToday = dateFormat.format(currentTime);
+
+        String dbDate = stringBuilder.append(date).append(" ").append(time).toString();
+
         if(flame == 0 && gas == 0){
             warning = "OK";
-            //db.setWarning(warning);
+            //notifications.dangerDetected(warning);
+
+        } else if(flame == 1 || gas == 1){
+            warning = "DANGER";
+            //notifications.dangerDetected(warning);
+            if(dbDate.compareTo(dateToday) < 0) {
+                notifications.sendNotificationIfDangerDetected();
+            }
         }
 
         Database db = new Database(temp, date, time, warning);
-
+        dbDate.equals("");
+        stringBuilder.setLength(0);
         final View result;
 
         ViewHolder holder;
@@ -105,6 +137,10 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
         }
         return convertView;
     }
+
+
+
+
 
 /*    public void bindData(Database database, String key){
         tvTemp.setText(database.getTemp());

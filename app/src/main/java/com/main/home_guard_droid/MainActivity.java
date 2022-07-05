@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,18 +25,20 @@ public class MainActivity extends AppCompatActivity {
     Intent i;
     private Boolean flameStatus = true;
     private Boolean gasStatus = true;
+    DatabaseConnector databaseConnector = new DatabaseConnector();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //registerToken();
+        registerToken();
         i = new Intent(MainActivity.this, HistoryActivity.class);
         goToHistory();
         turnOnFlame();
         //turnOnBuzz();
         turnOnGas();
+        databaseConnector.getList();
 
     }
 
@@ -133,4 +136,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+/*    public void setFirebaseListener(){
+        private FirebaseAnalytics mFirebaseAnalytics;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Bundle bundle = new Bundle();
+        Bundle params = new Bundle();
+        params.putString("image_name", "name");
+        params.putString("full_text", "text");
+        mFirebaseAnalytics.logEvent("share_image", params);
+    }*/
 }

@@ -35,7 +35,7 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
     public ListViewAdapter(Context mContext, int viewResourceId, ArrayList<Database> dbList){
         super(mContext, viewResourceId, dbList);
         this.viewResourceId = viewResourceId;
-        //this.mContext = context;
+        this.mContext = mContext;
     }
 
     public ListViewAdapter(Context mContext, ArrayList<Database> dbList){
@@ -91,9 +91,9 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
         } else if(flame == 1 || gas == 1){
             warning = "DANGER";
             //notifications.dangerDetected(warning);
-            if(dbDate.compareTo(dateToday) < 0) {
-                notifications.sendNotificationIfDangerDetected();
-            }
+            //if(dbDate.compareTo(dateToday) < 0) {
+                //notifications.sendNotificationIfDangerDetected(mContext);
+            //}
         }
 
         Database db = new Database(temp, date, time, warning);

@@ -54,7 +54,7 @@ public class Notifications extends FirebaseMessagingService {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void sendNotificationIfDangerDetected(){
+    public void sendNotificationIfDangerDetected(Context context){
 
 /*        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);*/
@@ -70,7 +70,7 @@ public class Notifications extends FirebaseMessagingService {
 /*        if(getApplicationContext()==null){
 
         }*/
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "dangerPush")
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "dangerPush")
                 //.setContentIntent(pendingIntent)
                 .setContentTitle("WYKRYTO ZAGROŻENIE")
                 .setContentText("SPRAWDŹ HOME GUARD")
@@ -78,11 +78,33 @@ public class Notifications extends FirebaseMessagingService {
                 .setAutoCancel(false);
 
         /*@SuppressLint("ServiceCast") NotificationManagerCompat notificationManagerCompat = (NotificationManagerCompat) getSystemService(NOTIFICATION_SERVICE);*/
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
-        NotificationManagerCompat.from(this).notify(2, notification.build());
+        NotificationManagerCompat.from(context).notify(2, notification.build());
     }
 
+
+/*    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Notification BackgroundNotification(Context context){
+
+        NotificationChannel channel = new NotificationChannel(
+                "Background Service",
+                "Background Service",
+                NotificationManager.IMPORTANCE_LOW
+        );
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "dangerPush")
+                .setContentTitle("Home guard jest włączony")
+                //.setContentText("SPRAWDŹ HOME GUARD")
+                .setSmallIcon(R.drawable.ic_danger_notification);
+                //.setAutoCancel(false);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
+        NotificationManagerCompat notifyService = NotificationManagerCompat.from(context).notify(3, notification.build());
+
+        return notifyService;
+    }*/
 
 }
 

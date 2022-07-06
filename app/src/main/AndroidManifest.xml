@@ -3,6 +3,8 @@
     package="com.main.home_guard_droid">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".Sensors"
@@ -14,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Home_Guard_Droid">
 
+        <service android:name=".BackgroundService"></service>
+        <receiver android:name=".MyBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
         <service
             android:name="com.main.home_guard_droid.Notifications"
             android:exported="false">

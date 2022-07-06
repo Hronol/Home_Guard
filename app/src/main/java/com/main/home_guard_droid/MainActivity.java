@@ -5,9 +5,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
     private Boolean gasStatus = true;
     DatabaseConnector databaseConnector = new DatabaseConnector();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(!backgroundServiceRunning()){
+            Intent intent = new Intent(this, BackgroundService.class);
+            startForegroundService(intent);
+        }
 
         registerToken();
         i = new Intent(MainActivity.this, HistoryActivity.class);
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         turnOnFlame();
         //turnOnBuzz();
         turnOnGas();
-        databaseConnector.getList();
+        //databaseConnector.getList();
 
     }
 
@@ -135,6 +143,17 @@ public class MainActivity extends AppCompatActivity {
                 String msg = getString(R.string.msg_token_fmt, token);
             }
         });
+    }
+
+    //zapobieganie kilkukrotnego uruchomienia instancji serwisu
+    public boolean backgroundServiceRunning(){
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service: activityManager.getRunningServices(Integer.MAX_VALUE)){
+            if(BackgroundService.class.getName().equals(service.service.getClassName())){
+                return true;
+            }
+        }
+        return false;
     }
 
 /*    public void setFirebaseListener(){

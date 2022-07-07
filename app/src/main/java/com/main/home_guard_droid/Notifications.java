@@ -59,7 +59,7 @@ public class Notifications extends FirebaseMessagingService {
 /*        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);*/
         //RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.no)
-
+        RemoteViews notificationLayoutExpanded = new RemoteViews(context.getPackageName(), R.layout.layout_notification);
 
         NotificationChannel channel = new NotificationChannel(
                 "dangerPush",
@@ -75,12 +75,17 @@ public class Notifications extends FirebaseMessagingService {
                 .setContentTitle("WYKRYTO ZAGROŻENIE")
                 .setContentText("SPRAWDŹ HOME GUARD")
                 .setSmallIcon(R.drawable.ic_danger_notification)
+                .setCustomBigContentView(notificationLayoutExpanded)
                 .setAutoCancel(false);
 
         /*@SuppressLint("ServiceCast") NotificationManagerCompat notificationManagerCompat = (NotificationManagerCompat) getSystemService(NOTIFICATION_SERVICE);*/
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
         NotificationManagerCompat.from(context).notify(2, notification.build());
+    }
+
+    public void turnOnAlarmOnDanger(){
+
     }
 
 

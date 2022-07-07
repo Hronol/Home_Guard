@@ -1,7 +1,11 @@
 package com.main.home_guard_droid;
 
+import android.content.Context;
+import android.os.Build;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,6 +21,7 @@ public class DatabaseConnector{
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceDB;
+    Notifications notifications = new Notifications();
     DatabaseReference db;
     private ArrayList<Database> sensorsValue = new ArrayList<>();
     Date currentTime = Calendar.getInstance().getTime();
@@ -93,8 +98,9 @@ public class DatabaseConnector{
         });
     }*/
 
-    public ArrayList<Database> getList(){
+    public ArrayList<Database> getList(Context context){
         db.addChildEventListener(new ChildEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //fetchData(snapshot);
@@ -124,8 +130,8 @@ public class DatabaseConnector{
                 } else if(flame.equals("1") || gas.equals("1")){
                     warning = "DANGER";
                     //notifications.dangerDetected(warning);
-                    if(dbDate.compareTo(dateToday) < 0) {
-                        //notifications.sendNotificationIfDangerDetected();
+                    if(dbDate.compareTo(dateToday) > 0) {
+                        notifications.sendNotificationIfDangerDetected(context);
                     }
                 }
 

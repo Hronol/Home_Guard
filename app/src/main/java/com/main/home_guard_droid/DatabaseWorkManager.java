@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters;
 public class DatabaseWorkManager extends Worker {
 
     private Context context;
+    DatabaseConnector databaseConnector = new DatabaseConnector();
 
     public DatabaseWorkManager(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -20,8 +21,7 @@ public class DatabaseWorkManager extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-
-
+        databaseConnector.getList(context);
         return Result.success();
     }
 }

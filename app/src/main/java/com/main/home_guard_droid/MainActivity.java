@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -21,13 +25,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     Sensors sensors = new Sensors();
     Intent i;
     private Boolean flameStatus = true;
     private Boolean gasStatus = true;
-    DatabaseConnector databaseConnector = new DatabaseConnector();
+    //DatabaseConnector databaseConnector = new DatabaseConnector();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         turnOnFlame();
         //turnOnBuzz();
         turnOnGas();
+        backgroundWatcher();
         //databaseConnector.getList();
 
     }
@@ -155,6 +162,19 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public void backgroundWatcher(){
+
+        Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(DatabaseWorkManager.class, 15, TimeUnit.SECONDS)
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(periodicWorkRequest);
+    }
+
+
+
 
 /*    public void setFirebaseListener(){
         private FirebaseAnalytics mFirebaseAnalytics;

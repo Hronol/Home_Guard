@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //databaseConnector.getList();
 
     }
-
+//push
     public void setRealTimeData(){
         TextView tempDataTextView = (TextView) findViewById(R.id.tempDataTextView);
         TextView tempStatusTextView = (TextView) findViewById(R.id.tempStatusTextView);

@@ -26,7 +26,7 @@ public class BackgroundService extends Service {
                 @Override
                 public void run() {
                     while(true){
-                        Log.e("Service", "Home guard jest włączony");
+                        //Log.e("Service", "Home guard jest włączony");
                         try{
                             Thread.sleep(2000);
                         }catch (InterruptedException e){

@@ -3,7 +3,9 @@ package com.main.home_guard_droid;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -59,6 +61,17 @@ public class Notifications extends FirebaseMessagingService {
 /*        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);*/
         //RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.no)
+
+        Intent notifyIntent = new Intent(context, MainActivity.class);
+
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
+                context, 0, notifyIntent,
+                0
+        );
+
         RemoteViews notificationLayoutExpanded = new RemoteViews(context.getPackageName(), R.layout.layout_notification);
 
         NotificationChannel channel = new NotificationChannel(
@@ -66,17 +79,15 @@ public class Notifications extends FirebaseMessagingService {
                 "dangerPush1",
                 NotificationManager.IMPORTANCE_HIGH
         );
-        //NotificationManagerCompat.from(this).createNotificationChannel(channel);
-/*        if(getApplicationContext()==null){
 
-        }*/
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "dangerPush")
                 //.setContentIntent(pendingIntent)
                 .setContentTitle("WYKRYTO ZAGROŻENIE")
                 .setContentText("SPRAWDŹ HOME GUARD")
                 .setSmallIcon(R.drawable.ic_danger_notification)
                 .setCustomBigContentView(notificationLayoutExpanded)
-                .setAutoCancel(false);
+                .setContentIntent(notifyPendingIntent)
+                .setAutoCancel(true);
 
         /*@SuppressLint("ServiceCast") NotificationManagerCompat notificationManagerCompat = (NotificationManagerCompat) getSystemService(NOTIFICATION_SERVICE);*/
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -5,15 +5,17 @@ import android.content.Intent;
 public class Database {
 
     public String temp;
+    public String humid;
     public String day;
     public String time;
-    public Integer gas;
-    public Integer flame;
+    public String gas;
+    public String flame;
     public String warning;
 
 
-    public Database(String temp, String day, String time, Integer gas, Integer flame) {
+    public Database(String temp, String humid, String day, String time, String gas, String flame) {
         this.temp = temp;
+        this.humid = humid;
         this.day = day;
         this.time = time;
         this.gas = gas;
@@ -28,6 +30,14 @@ public class Database {
     }
 
     public Database() {
+    }
+
+    public String getHumid() {
+        return humid;
+    }
+
+    public void setHumid(String humid) {
+        this.humid = humid;
     }
 
     public String getTemp() {
@@ -54,19 +64,19 @@ public class Database {
         this.time = time;
     }
 
-    public Integer getGas() {
+    public String getGas() {
         return gas;
     }
 
-    public void setGas(Integer gas) {
+    public void setGas(String gas) {
         this.gas = gas;
     }
 
-    public Integer getFlame() {
+    public String getFlame() {
         return flame;
     }
 
-    public void setFlame(Integer flame) {
+    public void setFlame(String flame) {
         this.flame = flame;
     }
 

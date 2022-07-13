@@ -73,8 +73,8 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
         String date = getItem(position).getDay();
         String time = getItem(position).getTime();
         String warning = getItem(position).getWarning();
-        Integer flame = getItem(position).getFlame();
-        Integer gas = getItem(position).getGas();
+        String flame = getItem(position).getFlame();
+        String gas = getItem(position).getGas();
 
         //Dates comparision
        // String dayToday = dayFormat.format(currentTime);
@@ -84,11 +84,11 @@ public class ListViewAdapter extends ArrayAdapter<Database> {
 
         String dbDate = stringBuilder.append(date).append(" ").append(time).toString();
 
-        if(flame == 0 && gas == 0){
+        if(flame.equals("0") && gas.equals("0")){
             warning = "OK";
             //notifications.dangerDetected(warning);
 
-        } else if(flame == 1 || gas == 1){
+        } else if(flame.equals("1") || gas.equals("1")){
             warning = "DANGER";
             //notifications.dangerDetected(warning);
             //if(dbDate.compareTo(dateToday) < 0) {

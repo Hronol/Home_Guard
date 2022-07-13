@@ -2,6 +2,7 @@ package com.main.home_guard_droid;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -42,9 +43,19 @@ public class BackgroundService extends Service {
                 "Background Service",
                 NotificationManager.IMPORTANCE_LOW
         );
+
+        Intent notifyIntent = new Intent(this, MainActivity.class);
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
+                this, 0, notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "dangerPush")
                 .setContentTitle("Home guard jest włączony")
+                .setContentIntent(notifyPendingIntent)
                 //.setContentText("SPRAWDŹ HOME GUARD")
                 .setSmallIcon(R.drawable.ic_launcher_foreground);
 

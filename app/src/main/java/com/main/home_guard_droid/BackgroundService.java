@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat;
 public class BackgroundService extends Service {
 
     Notifications notifications = new Notifications();
-    //Context context = getApplicationContext();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

@@ -20,13 +20,6 @@ public class Database {
         this.flame = flame;
     }
 
-    public Database(String temp, String day, String time, String warning) {
-        this.temp = temp;
-        this.day = day;
-        this.time = time;
-        this.warning = warning;
-    }
-
     public Database() {
     }
 

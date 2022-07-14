@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    Intent i;
     private Boolean flameStatus = true;
     private Boolean humidStatus = true;
     private Boolean tempStatus = true;
@@ -50,13 +49,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //registerToken();
-        i = new Intent(this, DatabaseConnector.class);
         turnOnFlame();
         turnOnBuzz();
         turnOnGas();
         turnOnHumid();
         turnOnTemp();
-        backgroundWatcher();
+        //backgroundWatcher();
         //backgroundWatcher2();
         //setRealTimeData();
         //databaseConnector.getList();
@@ -69,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 handler.postDelayed(runnable, delay);
                 realtimeDBhelper = databaseConnector.getList(MainActivity.this, flameStatus, gasStatus);
+                //realtimeDBhelper = databaseConnector.getValues(MainActivity.this, flameStatus, gasStatus);
                 setRealTimeData(realtimeDBhelper);
             }
         }, delay);
@@ -139,21 +138,17 @@ public class MainActivity extends AppCompatActivity {
                     flameButton.setText("FLAME - ONLINE");
                     flameStatusTextView.setText("Loading data...");
                     flameDataTextView.setText("Loading data...");
-                    i.putExtra("flame", true);
                 } else {
                     flameStatus = false;
                     flameButton.setText("FLAME - OFFLINE");
                     flameStatusTextView.setText("OFFLINE");
                     flameDataTextView.setText("OFFLINE");
-                    i.putExtra("flame", false);
-                    //startActivity(i);
                 }
             }
         });
     }
 
     public void turnOnGas() {
-        // Sensors sensors = (Sensors) getApplicationContext();
         TextView gasDataTextView = (TextView) findViewById(R.id.gasDataTextView);
         TextView gasStatusTextView = (TextView) findViewById(R.id.gasStatusTextView);
         Button gasButton = (Button) findViewById(R.id.buttonSmoke);
@@ -165,14 +160,11 @@ public class MainActivity extends AppCompatActivity {
                     gasButton.setText("SMOKE/GAS - ONLINE");
                     gasDataTextView.setText("Loading data...");
                     gasStatusTextView.setText("Loading data...");
-                    i.putExtra("gas", true);
                 } else {
                     gasStatus = false;
                     gasButton.setText("SMOKE/GAS - OFFLINE");
                     gasDataTextView.setText("OFFLINE");
                     gasStatusTextView.setText("OFFLINE");
-                    i.putExtra("gas", false);
-                    //startActivity(i);
                 }
             }
         });
@@ -180,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void turnOnTemp() {
-        // Sensors sensors = (Sensors) getApplicationContext();
         TextView tempDataTextView = (TextView) findViewById(R.id.tempDataTextView);
         TextView tempStatusTextView = (TextView) findViewById(R.id.tempStatusTextView);
         Button tempButton = (Button) findViewById(R.id.buttonTemp);
@@ -192,14 +183,11 @@ public class MainActivity extends AppCompatActivity {
                     tempButton.setText("TEMPERATURE - ONLINE");
                     tempDataTextView.setText("Loading data...");
                     tempStatusTextView.setText("Loading data...");
-                    i.putExtra("temp", true);
                 } else {
                     tempStatus = false;
                     tempButton.setText("TEMPERATURE - OFFLINE");
                     tempDataTextView.setText("OFFLINE");
                     tempStatusTextView.setText("OFFLINE");
-                    i.putExtra("temp", false);
-                    //startActivity(i);
                 }
             }
         });
@@ -207,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void turnOnHumid() {
-        // Sensors sensors = (Sensors) getApplicationContext();
         TextView humidDataTextView = (TextView) findViewById(R.id.humidDataTextView);
         TextView humidStatusTextView = (TextView) findViewById(R.id.humidStatusTextView);
         Button humidButton = (Button) findViewById(R.id.buttonHumid);
@@ -219,14 +206,11 @@ public class MainActivity extends AppCompatActivity {
                     humidButton.setText("HUMIDITY - ONLINE");
                     humidDataTextView.setText("Loading data...");
                     humidStatusTextView.setText("Loading data...");
-                    i.putExtra("humid", true);
                 } else {
                     humidStatus = false;
                     humidButton.setText("HUMIDITY - OFFLINE");
                     humidDataTextView.setText("OFFLINE");
                     humidStatusTextView.setText("OFFLINE");
-                    i.putExtra("humid", false);
-                    //startActivity(i);
                 }
             }
         });
@@ -234,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void turnOnBuzz() {
-        // Sensors sensors = (Sensors) getApplicationContext();
         Button buzzButton = (Button) findViewById(R.id.buttonBuzz);
         buzzButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,12 +225,9 @@ public class MainActivity extends AppCompatActivity {
                 if (!buzzStatus) {
                     buzzStatus = true;
                     buzzButton.setText("BUZZER - ONLINE");
-                    //i.putExtra("gas", true);
                 } else {
                     buzzStatus = false;
                     buzzButton.setText("BUZZER - OFFLINE");
-                    //.putExtra("gas", false);
-                    //startActivity(i);
                 }
             }
         });

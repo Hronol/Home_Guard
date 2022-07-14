@@ -4,11 +4,9 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -24,18 +22,18 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(
                 new Runnable() {
-                @Override
-                public void run() {
-                    while(true){
-                        //Log.e("Service", "Home guard jest włączony");
-                        try{
-                            Thread.sleep(2000);
-                        }catch (InterruptedException e){
-                            e.printStackTrace();
+                    @Override
+                    public void run() {
+                        while (true) {
+                            //Log.e("Service", "Home guard jest włączony");
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
-            }
         ).start();
 
         NotificationChannel channel = new NotificationChannel(

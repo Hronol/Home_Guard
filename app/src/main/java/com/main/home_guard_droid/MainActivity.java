@@ -1,14 +1,5 @@
 package com.main.home_guard_droid;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.work.Constraints;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -27,26 +24,19 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Sensors sensors = new Sensors();
     Intent i;
     private Boolean flameStatus = true;
     private Boolean humidStatus = true;
     private Boolean tempStatus = true;
     private Boolean gasStatus = true;
     private Boolean buzzStatus = true;
-    public String temp;
-    public String day;
-    public String time;
-    public String gas;
-    public String flame;
-    public String warning;
     //DatabaseWorkManager databaseWorkManager = new DatabaseWorkManager();
     DatabaseConnector databaseConnector = new DatabaseConnector();
     Database realtimeDBhelper = new Database();
 
     Handler handler = new Handler();
     Runnable runnable;
-    int delay = 10000;
+    int delay = 1000;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -54,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(!backgroundServiceRunning()){
+        if (!backgroundServiceRunning()) {
             Intent intent = new Intent(this, BackgroundService.class);
             startForegroundService(intent);
         }
 
-        registerToken();
+        //registerToken();
         i = new Intent(this, DatabaseConnector.class);
         turnOnFlame();
         turnOnBuzz();
@@ -78,20 +68,21 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 handler.postDelayed(runnable, delay);
-                realtimeDBhelper = databaseConnector.getList(MainActivity.this);
+                realtimeDBhelper = databaseConnector.getList(MainActivity.this, flameStatus, gasStatus);
                 setRealTimeData(realtimeDBhelper);
             }
         }, delay);
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
     }
 
-//push
-    public void setRealTimeData(Database database){
+    //push
+    public void setRealTimeData(Database database) {
         TextView tempDataTextView = (TextView) findViewById(R.id.tempDataTextView);
         TextView tempStatusTextView = (TextView) findViewById(R.id.tempStatusTextView);
         TextView humidDataTextView = (TextView) findViewById(R.id.humidDataTextView);
@@ -101,32 +92,32 @@ public class MainActivity extends AppCompatActivity {
         TextView gasDataTextView = (TextView) findViewById(R.id.gasDataTextView);
         TextView gasStatusTextView = (TextView) findViewById(R.id.gasStatusTextView);
 
-        if(tempStatus){
-            if(database.getTemp() == null){
+        if (tempStatus) {
+            if (database.getTemp() == null) {
                 tempDataTextView.setText("Loading data...");
             } else {
                 tempDataTextView.setText(database.getTemp());
                 tempStatusTextView.setText("ONLINE");
             }
         }
-        if(humidStatus){
-            if(database.getHumid() == null){
+        if (humidStatus) {
+            if (database.getHumid() == null) {
                 humidDataTextView.setText("Loading data...");
             } else {
                 humidDataTextView.setText(database.getHumid());
                 humidStatusTextView.setText("ONLINE");
             }
         }
-        if(flameStatus){
-            if(database.getFlame() == null){
+        if (flameStatus) {
+            if (database.getFlame() == null) {
                 flameDataTextView.setText("Loading data...");
             } else {
                 flameDataTextView.setText(database.getFlame());
                 flameStatusTextView.setText("ONLINE");
             }
         }
-        if(gasStatus){
-            if(database.getGas() == null){
+        if (gasStatus) {
+            if (database.getGas() == null) {
                 gasDataTextView.setText("Loading data...");
             } else {
                 gasDataTextView.setText(database.getGas());
@@ -134,26 +125,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-/*        Bundle bundle = getIntent().getExtras();
-        if(bundle == null){
-            return;
-        } else{
-            String temp = bundle.getString("key1");
-            tempDataTextView.setText(temp);
-        }*/
-
     }
-
-/*    public void goToHistory() {
-        Button historybtn = (Button) findViewById(R.id.button_history);
-        historybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
-            }
-        });
-    }*/
 
     public void turnOnFlame() {
         Button flameButton = (Button) findViewById(R.id.buttonFlame);
@@ -178,20 +150,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-       /* flameButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    i.putExtra("flame", true);
-                    startActivity(i);
-                    //sensors.setFlameDetection(true);
-                } else {
-                    //sensors.setFlameDetection(false);
-                    i.putExtra("flame", false);
-                    startActivity(i);
-                }
-            }
-        });*/
     }
 
     public void turnOnGas() {
@@ -296,21 +254,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   /* public void turnOnBuzz() {
-     //   Sensors sensors = (Sensors) getApplicationContext();
-        Switch buzzSwitch = (Switch) findViewById(R.id.switch_buzz);
-        buzzSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    sensors.setBuzzDetection(true);
-                } else {
-                    sensors.setBuzzDetection(false);
-                }
-            }
-        });
-    }*/
-
     public void registerToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
@@ -328,17 +271,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //zapobieganie kilkukrotnego uruchomienia instancji serwisu
-    public boolean backgroundServiceRunning(){
+    public boolean backgroundServiceRunning() {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for(ActivityManager.RunningServiceInfo service: activityManager.getRunningServices(Integer.MAX_VALUE)){
-            if(BackgroundService.class.getName().equals(service.service.getClassName())){
+        for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if (BackgroundService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
         return false;
     }
 
-    public void backgroundWatcher(){
+    public void backgroundWatcher() {
 
         //Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
         PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(DatabaseWorkManager.class, 3, TimeUnit.SECONDS)
@@ -346,32 +289,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         WorkManager.getInstance(this).enqueue(periodicWorkRequest);
-        setRealTimeData(realtimeDBhelper);
+        //setRealTimeData(realtimeDBhelper);
     }
-
-    public void backgroundWatcher2(){
-
-        //Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
-        OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(DatabaseWorkManager.class)
-                .setInitialDelay(5, TimeUnit.SECONDS)
-                .build();
-        WorkManager.getInstance(this).enqueue(oneTimeWorkRequest);
-        setRealTimeData(realtimeDBhelper);
-    }
-
-
-
-
-
-
-/*    public void setFirebaseListener(){
-        private FirebaseAnalytics mFirebaseAnalytics;
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        Bundle bundle = new Bundle();
-        Bundle params = new Bundle();
-        params.putString("image_name", "name");
-        params.putString("full_text", "text");
-        mFirebaseAnalytics.logEvent("share_image", params);
-    }*/
 }

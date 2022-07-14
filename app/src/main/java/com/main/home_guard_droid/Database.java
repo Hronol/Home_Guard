@@ -1,7 +1,5 @@
 package com.main.home_guard_droid;
 
-import android.content.Intent;
-
 public class Database {
 
     public String temp;

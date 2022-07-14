@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+
 // after Rebooting
 public class MyBroadcastReceiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)){
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             Intent serviceIntent = new Intent(context, BackgroundService.class);
             context.startForegroundService(serviceIntent);
         }

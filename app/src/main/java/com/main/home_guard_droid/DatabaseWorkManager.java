@@ -11,6 +11,7 @@ public class DatabaseWorkManager extends Worker {
     private final Context context;
     DatabaseConnector databaseConnector = new DatabaseConnector();
 
+
     public DatabaseWorkManager(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
@@ -19,7 +20,9 @@ public class DatabaseWorkManager extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        //databaseConnector.getList(context);
+        //Boolean flameStatus = MainActivity.getInstance().getFlameStatus();
+        //Boolean gasStatus = MainActivity.getInstance().getGasStatus();
+        //databaseConnector.getList(context, flameStatus, gasStatus);
         return Result.success();
     }
 }

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean tempStatus = true;
     private Boolean gasStatus = true;
     private Boolean buzzStatus = true;
+    //private static MainActivity instance;
     //DatabaseWorkManager databaseWorkManager = new DatabaseWorkManager();
     DatabaseConnector databaseConnector = new DatabaseConnector();
     Database realtimeDBhelper = new Database();
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         turnOnGas();
         turnOnHumid();
         turnOnTemp();
-        //backgroundWatcher();
+        backgroundWatcher();
         //backgroundWatcher2();
         //setRealTimeData();
         //databaseConnector.getList();
@@ -77,8 +78,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+
+        //handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
     }
+
+    public Boolean getFlameStatus(){
+        return flameStatus;
+    }
+
+    public Boolean getGasStatus(){
+        return gasStatus;
+    }
+
+/*    public static MainActivity getInstance() {
+        return instance;
+    }*/
 
     //push
     public void setRealTimeData(Database database) {
@@ -225,9 +239,11 @@ public class MainActivity extends AppCompatActivity {
                 if (!buzzStatus) {
                     buzzStatus = true;
                     buzzButton.setText("BUZZER - ONLINE");
+                    databaseConnector.pushBuzzerstatus(buzzStatus);
                 } else {
                     buzzStatus = false;
                     buzzButton.setText("BUZZER - OFFLINE");
+                    databaseConnector.pushBuzzerstatus(buzzStatus);
                 }
             }
         });

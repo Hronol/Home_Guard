@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }*/
 
-    //push
+    //push db
     public void setRealTimeData(Database database) {
         TextView tempDataTextView = (TextView) findViewById(R.id.tempDataTextView);
         TextView tempStatusTextView = (TextView) findViewById(R.id.tempStatusTextView);

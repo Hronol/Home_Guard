@@ -8,13 +8,11 @@ import androidx.work.WorkerParameters;
 
 public class DatabaseWorkManager extends Worker {
 
-    private final Context context;
-    DatabaseConnector databaseConnector = new DatabaseConnector();
+    //DatabaseConnector databaseConnector = new DatabaseConnector();
 
 
     public DatabaseWorkManager(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        this.context = context;
     }
 
     @NonNull

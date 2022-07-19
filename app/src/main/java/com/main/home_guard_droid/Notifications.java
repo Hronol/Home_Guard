@@ -34,7 +34,7 @@ public class Notifications extends FirebaseMessagingService {
         NotificationChannel channel = new NotificationChannel(
                 "dangerPush",
                 "dangerPush1",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
         );
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "dangerPush")
@@ -48,10 +48,6 @@ public class Notifications extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
         NotificationManagerCompat.from(context).notify(2, notification.build());
-    }
-
-    public void turnOnAlarmOnDanger() {
-
     }
 
 }

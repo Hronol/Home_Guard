@@ -14,7 +14,6 @@ import androidx.core.app.NotificationCompat;
 
 public class BackgroundService extends Service {
 
-    Notifications notifications = new Notifications();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -53,7 +52,6 @@ public class BackgroundService extends Service {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "dangerPush")
                 .setContentTitle("Home guard jest włączony")
                 .setContentIntent(notifyPendingIntent)
-                //.setContentText("SPRAWDŹ HOME GUARD")
                 .setSmallIcon(R.drawable.ic_launcher_foreground);
 
         startForeground(3, notification.build());

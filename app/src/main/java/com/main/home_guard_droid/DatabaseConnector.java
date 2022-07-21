@@ -41,7 +41,7 @@ public class DatabaseConnector {
 
     public Database getValues(Context context, boolean flameStatus, boolean gasStatus) {
         dbDataChange.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -84,7 +84,7 @@ public class DatabaseConnector {
 
     public Database getList(Context context, boolean flameStatus, boolean gasStatus) {
         dbOnChildAdded.addChildEventListener(new ChildEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -117,7 +117,7 @@ public class DatabaseConnector {
                 sensorsValues = new Database(temp, humidity, date, time, gas, flame);
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     int delay = 1000;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

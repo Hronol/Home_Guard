@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class Notifications extends FirebaseMessagingService {
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public void sendNotificationIfDangerDetected(Context context) {
 
         Intent notifyIntent = new Intent(context, MainActivity.class);

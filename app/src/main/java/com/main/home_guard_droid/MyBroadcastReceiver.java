@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi;
 
 // after Rebooting
 public class MyBroadcastReceiver extends BroadcastReceiver {
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onReceive(Context context, Intent intent) {
 

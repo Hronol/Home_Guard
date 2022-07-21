@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 public class BackgroundService extends Service {
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(

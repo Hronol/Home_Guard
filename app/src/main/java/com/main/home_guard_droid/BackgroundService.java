@@ -49,7 +49,7 @@ public class BackgroundService extends Service {
         );
 
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "dangerPush")
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "Background Service")
                 .setContentTitle("Home guard jest włączony")
                 .setContentIntent(notifyPendingIntent)
                 .setSmallIcon(R.drawable.ic_launcher_foreground);

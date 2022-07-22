@@ -68,46 +68,57 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.gridlayout.widget.GridLayout
-        android:layout_width="367dp"
-        android:layout_height="370dp"
-        android:layout_marginTop="20dp"
+        android:id="@+id/gridLayout2"
+        android:layout_width="389dp"
+        android:layout_height="238dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout"
-        app:layout_constraintVertical_bias="0.333" >
+        app:layout_constraintVertical_bias="0.333">
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="227dp"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingRight="5dp"
+            app:layout_column="0"
+            app:layout_row="0">
 
-            <TableRow android:background="#FF6200EE" android:padding="10dp">
+            <TableRow
+                android:background="#FF6200EE"
+                android:padding="10dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textColor="#FFFFFFFF"
-                    android:text="Sensor" />
+                    android:text="Sensor"
+                    android:textColor="#FFFFFFFF" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textColor="#FFFFFFFF"
-                    android:text="Data" />
+                    android:text="Data"
+                    android:textColor="#FFFFFFFF" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textColor="#FFFFFFFF"
-                    android:text="Status" />
+                    android:text="Status"
+                    android:textColor="#FFFFFFFF" />
             </TableRow>
 
-            <TableRow android:background="#F0F7F7" android:padding="5dp">
+            <TableRow
+                android:background="#F0F7F7"
+                android:padding="5dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -129,7 +140,10 @@
                     android:text="Loading data..." />
             </TableRow>
 
-            <TableRow android:background="#F0F7F7" android:padding="5dp">
+            <TableRow
+                android:background="#F0F7F7"
+                android:padding="5dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -202,8 +216,71 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Loading data..." />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_height="101dp"
+                android:background="#F0F7F7"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Buzzer" />
+
+                <TextView
+                    android:id="@+id/buzzerDataTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Loading data..." />
+
+                <TextView
+                    android:id="@+id/buzzerStatusTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Loading data..." />
             </TableRow>
         </TableLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="383dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout2">
+
+        <TableRow
+            android:layout_width="395dp"
+            android:layout_height="match_parent"
+            app:layout_column="0"
+            app:layout_row="0">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Raspberry PI Status:" />
+
+            <TextView
+                android:id="@+id/rpiStatusTextview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Loading data..." />
+        </TableRow>
 
     </androidx.gridlayout.widget.GridLayout>
 

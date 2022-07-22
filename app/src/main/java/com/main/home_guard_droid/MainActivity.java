@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.Console;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean tempStatus = true;
     private Boolean gasStatus = true;
     private Boolean buzzStatus = true;
+    private String rpiStatus = "ONLINE";
     //private static MainActivity instance;
     //DatabaseWorkManager databaseWorkManager = new DatabaseWorkManager();
     DatabaseConnector databaseConnector = new DatabaseConnector();
@@ -94,6 +97,20 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }*/
 
+/*    public void checkBuzzerStatus(){
+        TextView buzzerDataTextView = (TextView) findViewById(R.id.buzzerDataTextView);
+        TextView buzzerStatusTextView = (TextView) findViewById(R.id.buzzerStatusTextView);
+
+        if (buzzStatus) {
+            if (database.get() == null) {
+                buzzerDataTextView.setText("OFFLINE");
+            } else {
+                buzzerDataTextView.setText(database.getGas());
+                buzzerStatusTextView.setText("ONLINE");
+            }
+        }
+    }*/
+
     //push db
     public void setRealTimeData(Database database) {
         TextView tempDataTextView = (TextView) findViewById(R.id.tempDataTextView);
@@ -104,12 +121,22 @@ public class MainActivity extends AppCompatActivity {
         TextView flameStatusTextView = (TextView) findViewById(R.id.flameStatusTextView);
         TextView gasDataTextView = (TextView) findViewById(R.id.gasDataTextView);
         TextView gasStatusTextView = (TextView) findViewById(R.id.gasStatusTextView);
+        TextView buzzerDataTextView = (TextView) findViewById(R.id.buzzerDataTextView);
+        TextView buzzerStatusTextView = (TextView) findViewById(R.id.buzzerStatusTextView);
+        TextView RPIStatusTextView = (TextView) findViewById(R.id.rpiStatusTextview);
 
         if (tempStatus) {
             if (database.getTemp() == null) {
                 tempDataTextView.setText("Loading data...");
             } else {
                 tempDataTextView.setText(database.getTemp());
+                String styleTempHumid = database.getTemp();
+                int tempInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length()-4));
+                if(tempInt>=50){
+                    tempDataTextView.setText("DANGER");
+                } else {
+                    tempDataTextView.setText(database.getTemp());
+                }
                 tempStatusTextView.setText("ONLINE");
             }
         }
@@ -117,7 +144,14 @@ public class MainActivity extends AppCompatActivity {
             if (database.getHumid() == null) {
                 humidDataTextView.setText("Loading data...");
             } else {
-                humidDataTextView.setText(database.getHumid());
+                humidDataTextView.setText(database.getTemp());
+                String styleTempHumid = database.getHumid();
+                int humidInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length() - 4));
+                if (humidInt <= 5) {
+                    humidDataTextView.setText("DANGER");
+                } else {
+                    humidDataTextView.setText(database.getHumid());
+                }
                 humidStatusTextView.setText("ONLINE");
             }
         }
@@ -137,6 +171,12 @@ public class MainActivity extends AppCompatActivity {
                 gasStatusTextView.setText("ONLINE");
             }
         }
+        rpiStatus = database.getTime();
+        if(rpiStatus != null) {
+            String compareDatesForRPICheck = rpiStatus.substring(0, rpiStatus.length() - 3);
+            Log.d("tag", compareDatesForRPICheck);
+        }
+
 
     }
 

@@ -33,6 +33,23 @@ public class DatabaseConnector {
         dbBuzzerRef = FirebaseDatabase.getInstance().getReference().child("Buzzer");
     }
 
+    public void checkRPIConnection(){
+
+    }
+
+/*    public Boolean checkBuzzerStatus(Boolean buzzerStatus){
+        if(buzzerStatus != null) {
+            Boolean buzzStatus = dbBuzzerRef.child("buzzer").get();
+            if( buzzStatus == true){
+                return true;
+            }else{
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }*/
+
     public void pushBuzzerstatus(Boolean buzzerStatus){
         if(buzzerStatus != null) {
             dbBuzzerRef.child("buzzer").setValue(buzzerStatus);

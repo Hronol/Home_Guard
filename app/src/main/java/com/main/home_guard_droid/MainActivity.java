@@ -22,8 +22,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.Console;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainActivity extends AppCompatActivity {
 
     private Boolean flameStatus = true;
@@ -32,8 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private Boolean gasStatus = true;
     private Boolean buzzStatus = true;
     private String rpiStatus = "ONLINE";
-    //private static MainActivity instance;
-    //DatabaseWorkManager databaseWorkManager = new DatabaseWorkManager();
+    private String getRPITime = "";
+    private String getRPIDate = "";
+    Notifications notifications = new Notifications();
+    LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("CET"));
+    LocalDateTime dateTimeToCompare = localDateTime.minusMinutes(5);
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    DateTimeFormatter dateTimeFormatForTime = DateTimeFormatter.ofPattern("HH:mm");
+    DateTimeFormatter dateTimeFormatForDate = DateTimeFormatter.ofPattern("dd/MM/yy");
     DatabaseConnector databaseConnector = new DatabaseConnector();
     Database realtimeDBhelper = new Database();
 
@@ -68,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         handler.postDelayed(runnable = new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             public void run() {
                 handler.postDelayed(runnable, delay);
                 realtimeDBhelper = databaseConnector.getList(MainActivity.this, flameStatus, gasStatus);
@@ -112,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     //push db
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public void setRealTimeData(Database database) {
         TextView tempDataTextView = (TextView) findViewById(R.id.tempDataTextView);
         TextView tempStatusTextView = (TextView) findViewById(R.id.tempStatusTextView);
@@ -173,8 +191,23 @@ public class MainActivity extends AppCompatActivity {
         }
         rpiStatus = database.getTime();
         if(rpiStatus != null) {
-            String compareDatesForRPICheck = rpiStatus.substring(0, rpiStatus.length() - 3);
-            Log.d("tag", compareDatesForRPICheck);
+            getRPITime = database.getTime();
+            getRPIDate = database.getDay();
+            String compareTimeForRPICheck = getRPITime.substring(0, rpiStatus.length() - 3);
+            String compareDateForRPICheck = getRPIDate;
+            String formatTimeToCompare = dateTimeToCompare.format(dateTimeFormatForTime);
+            String formatDateToCompare = localDateTime.format(dateTimeFormatForDate);
+            timeFormat.setTimeZone(TimeZone.getTimeZone("CET"));
+
+            if(compareDateForRPICheck.equals(formatDateToCompare)){
+                int compare = compareTimeForRPICheck.compareTo(formatTimeToCompare);
+                if(compare < 0){
+                    RPIStatusTextView.setText("OFFLINE - RESTART HOME GUARD !!!");
+                    notifications.sendNotificationIfDangerDetected(this);
+                } else {
+                    RPIStatusTextView.setText("ONLINE");
+                }
+            }
         }
 
 

@@ -26,6 +26,8 @@ public class DatabaseConnector {
     DatabaseReference dbOnChildAdded;
     DatabaseReference dbBuzzerRef;
     Database sensorsValues = new Database();
+    int tempInt;
+    int humidInt;
 
     public DatabaseConnector() {
         //dbDataChange = FirebaseDatabase.getInstance().getReference().child("test").child("-N6j2oqmGlDzEdz99ewJ");
@@ -112,9 +114,17 @@ public class DatabaseConnector {
                 String gas = snapshot.child("gas").getValue().toString();
                 String humidity = snapshot.child("wilg").getValue().toString();
 
+                if(temp != null && humidity != null){
+                    tempInt = Integer.parseInt(temp.substring(0, temp.length()-4));
+                    humidInt = Integer.parseInt(humidity.substring(0, humidity.length() - 4));
+                }
+
                 if (flame.equals("0") && gas.equals("0")) {
                     flame = "OK";
                     gas = "OK";
+                    if (tempInt >= 50 || humidInt <=5){
+                        notifications.sendNotificationIfDangerDetected(context);
+                    }
                 } else if ((flame.equals("1") && gas.equals("1")) && (flameStatus || gasStatus)) {
                     flame = "DANGER";
                     gas = "DANGER";
@@ -137,34 +147,6 @@ public class DatabaseConnector {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-/*                String temp = snapshot.child("temp").getValue().toString();
-                String date = snapshot.child("day").getValue().toString();
-                String time = snapshot.child("time").getValue().toString();
-                String flame = snapshot.child("flame").getValue().toString();
-                String gas = snapshot.child("gas").getValue().toString();
-                String humidity = snapshot.child("wilg").getValue().toString();
-
-                if (flame.equals("0") && gas.equals("0")) {
-                    flame = "OK";
-                    gas = "OK";
-                } else if (flame.equals("1") && gas.equals("1")) {
-                    flame = "DANGER";
-                    gas = "DANGER";
-                    notifications.sendNotificationIfDangerDetected(context);
-                } else if (flame.equals("1") || gas.equals("1")) {
-                    if (flame.equals("1") && flameStatus) {
-                        flame = "DANGER";
-                        gas = "OK";
-                        notifications.sendNotificationIfDangerDetected(context);
-                    } else if (gas.equals("1") && gasStatus) {
-                        gas = "DANGER";
-                        flame = "OK";
-                        notifications.sendNotificationIfDangerDetected(context);
-                    }
-                }
-
-                sensorsValues = new Database(temp, humidity, date, time, gas, flame);*/
             }
 
             @Override

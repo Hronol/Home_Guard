@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checkable="true"
-            android:text="Humidity - ONLINE"
+            android:text="Humidity"
             app:layout_column="0"
             app:layout_row="1" />
 
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checkable="true"
-            android:text="SMOKE/GAS - ONLINE"
+            android:text="SMOKE/GAS "
             app:layout_column="0"
             app:layout_row="3" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checkable="true"
-            android:text="FLAME - ONLINE"
+            android:text="FLAME"
             app:layout_column="0"
             app:layout_row="2" />
 
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="BUZZ - ONLINE"
+            android:text="BUZZER"
             app:layout_column="0"
             app:layout_row="4" />
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checkable="true"
-            android:text="TEMPERATURE - ONLINE"
+            android:text="TEMPERATURE"
             app:layout_column="0"
             app:layout_row="0" />
 

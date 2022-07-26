@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,15 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.Console;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -143,6 +137,15 @@ public class MainActivity extends AppCompatActivity {
         TextView buzzerStatusTextView = (TextView) findViewById(R.id.buzzerStatusTextView);
         TextView RPIStatusTextView = (TextView) findViewById(R.id.rpiStatusTextview);
 
+        if(databaseConnector.getBuzzerStatus() != null) {
+            buzzerDataTextView.setText("Loading data...");
+            if(databaseConnector.getBuzzerStatus()) {
+                buzzerStatusTextView.setText("ONLINE");
+                buzzerDataTextView.setText("ONLINE");
+            } else {
+                buzzerDataTextView.setText("OFFLINE");
+            }
+        }
         if (tempStatus) {
             if (database.getTemp() == null) {
                 tempDataTextView.setText("Loading data...");
@@ -152,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 int tempInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length()-4));
                 if(tempInt>=50){
                     tempDataTextView.setText("DANGER");
+                    //buzzerDataTextView.setText("ALARM");
                 } else {
                     tempDataTextView.setText(database.getTemp());
                 }
@@ -167,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 int humidInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length() - 4));
                 if (humidInt <= 5) {
                     humidDataTextView.setText("DANGER");
+                    //buzzerDataTextView.setText("ALARM");
                 } else {
                     humidDataTextView.setText(database.getHumid());
                 }
@@ -222,12 +227,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!flameStatus) {
                     flameStatus = true;
-                    flameButton.setText("FLAME - ONLINE");
+                    flameButton.setText("FLAME");
                     flameStatusTextView.setText("Loading data...");
                     flameDataTextView.setText("Loading data...");
                 } else {
                     flameStatus = false;
-                    flameButton.setText("FLAME - OFFLINE");
+                    flameButton.setText("FLAME");
                     flameStatusTextView.setText("OFFLINE");
                     flameDataTextView.setText("OFFLINE");
                 }
@@ -244,12 +249,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!gasStatus) {
                     gasStatus = true;
-                    gasButton.setText("SMOKE/GAS - ONLINE");
+                    gasButton.setText("SMOKE/GAS");
                     gasDataTextView.setText("Loading data...");
                     gasStatusTextView.setText("Loading data...");
                 } else {
                     gasStatus = false;
-                    gasButton.setText("SMOKE/GAS - OFFLINE");
+                    gasButton.setText("SMOKE/GAS");
                     gasDataTextView.setText("OFFLINE");
                     gasStatusTextView.setText("OFFLINE");
                 }
@@ -267,12 +272,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!tempStatus) {
                     tempStatus = true;
-                    tempButton.setText("TEMPERATURE - ONLINE");
+                    tempButton.setText("TEMPERATURE");
                     tempDataTextView.setText("Loading data...");
                     tempStatusTextView.setText("Loading data...");
                 } else {
                     tempStatus = false;
-                    tempButton.setText("TEMPERATURE - OFFLINE");
+                    tempButton.setText("TEMPERATURE");
                     tempDataTextView.setText("OFFLINE");
                     tempStatusTextView.setText("OFFLINE");
                 }
@@ -290,12 +295,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!humidStatus) {
                     humidStatus = true;
-                    humidButton.setText("HUMIDITY - ONLINE");
+                    humidButton.setText("HUMIDITY");
                     humidDataTextView.setText("Loading data...");
                     humidStatusTextView.setText("Loading data...");
                 } else {
                     humidStatus = false;
-                    humidButton.setText("HUMIDITY - OFFLINE");
+                    humidButton.setText("HUMIDITY");
                     humidDataTextView.setText("OFFLINE");
                     humidStatusTextView.setText("OFFLINE");
                 }
@@ -306,16 +311,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void turnOnBuzz() {
         Button buzzButton = (Button) findViewById(R.id.buttonBuzz);
+        TextView buzzerDataTextView = (TextView) findViewById(R.id.buzzerDataTextView);
+        TextView buzzerStatusTextView = (TextView) findViewById(R.id.buzzerStatusTextView);
         buzzButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!buzzStatus) {
                     buzzStatus = true;
-                    buzzButton.setText("BUZZER - ONLINE");
+                    buzzButton.setText("BUZZER");
+                    buzzerDataTextView.setText("Loading data...");
+                    buzzerStatusTextView.setText("Loading data...");
                     databaseConnector.pushBuzzerstatus(buzzStatus);
                 } else {
                     buzzStatus = false;
-                    buzzButton.setText("BUZZER - OFFLINE");
+                    buzzButton.setText("BUZZER");
+                    buzzerDataTextView.setText("OFFLINE");
+                    buzzerStatusTextView.setText("OFFLINE");
                     databaseConnector.pushBuzzerstatus(buzzStatus);
                 }
             }

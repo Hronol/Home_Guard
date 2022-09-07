@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 tempDataTextView.setText(database.getTemp());
                 String styleTempHumid = database.getTemp();
                 int tempInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length()-4));
-                if(tempInt>=50){
+                if(tempInt>=40){
                     tempDataTextView.setText("DANGER");
                     //buzzerDataTextView.setText("ALARM");
                 } else {
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 humidDataTextView.setText(database.getTemp());
                 String styleTempHumid = database.getHumid();
                 int humidInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length() - 4));
-                if (humidInt <= 5) {
+                if (humidInt <= 25) {
                     humidDataTextView.setText("DANGER");
                     //buzzerDataTextView.setText("ALARM");
                 } else {

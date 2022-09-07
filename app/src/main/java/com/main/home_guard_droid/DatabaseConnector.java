@@ -70,7 +70,7 @@ public class DatabaseConnector {
                 if (flame.equals("0") && gas.equals("0")) {
                     flame = "OK";
                     gas = "OK";
-                    if (tempInt >= 50 || humidInt <=5){
+                    if (tempInt >= 40 || humidInt <=25){
                         notifications.sendNotificationIfDangerDetected(context);
                     }
                 } else if ((flame.equals("1") && gas.equals("1")) && (flameStatus || gasStatus)) {

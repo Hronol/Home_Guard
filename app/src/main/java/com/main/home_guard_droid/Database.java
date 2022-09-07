@@ -2,22 +2,41 @@ package com.main.home_guard_droid;
 
 public class Database {
 
-    private String tempValue;
-    private String day;
-    private String time;
+    public String temp;
+    public String humid;
+    public String day;
+    public String time;
+    public String gas;
+    public String flame;
+    public String warning;
 
-    public Database(String tempValue, String day, String time) {
-        this.tempValue = tempValue;
+
+    public Database(String temp, String humid, String day, String time, String gas, String flame) {
+        this.temp = temp;
+        this.humid = humid;
         this.day = day;
         this.time = time;
+        this.gas = gas;
+        this.flame = flame;
     }
 
-    public String getTempValue() {
-        return tempValue;
+    public Database() {
     }
 
-    public void setTempValue(String tempValue) {
-        this.tempValue = tempValue;
+    public String getHumid() {
+        return humid;
+    }
+
+    public void setHumid(String humid) {
+        this.humid = humid;
+    }
+
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
     }
 
     public String getDay() {
@@ -34,5 +53,29 @@ public class Database {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getGas() {
+        return gas;
+    }
+
+    public void setGas(String gas) {
+        this.gas = gas;
+    }
+
+    public String getFlame() {
+        return flame;
+    }
+
+    public void setFlame(String flame) {
+        this.flame = flame;
+    }
+
+    public String getWarning() {
+        return warning;
+    }
+
+    public void setWarning(String warning) {
+        this.warning = warning;
     }
 }

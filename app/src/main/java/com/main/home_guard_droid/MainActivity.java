@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 int tempInt = Integer.parseInt(styleTempHumid.substring(0, styleTempHumid.length()-4));
                 if(tempInt>=40){
                     tempDataTextView.setText("DANGER");
-                    //buzzerDataTextView.setText("ALARM");
                 } else {
                     tempDataTextView.setText(database.getTemp());
                 }
